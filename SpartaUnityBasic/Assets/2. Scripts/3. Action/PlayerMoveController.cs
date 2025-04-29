@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMoveController : MonoBehaviour
 {
     public enum MoveType
@@ -14,7 +14,7 @@ public class PlayerMoveController : MonoBehaviour
         Keyboard
     }
 
-    private CharacterController characterController;
+    private Rigidbody2D rigidbody2D;
     public MoveType CurrentMoveType { get; set; } = MoveType.None;
 
     [SerializeField] private float moveSpeed = 5f;
@@ -25,7 +25,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
     }
 
@@ -63,12 +63,12 @@ public class PlayerMoveController : MonoBehaviour
         switch (CurrentMoveType)
         {
             case MoveType.Keyboard:
-                moveDirection = new Vector2(keyboardInput.x, keyboardInput.y);
+                moveDirection = keyboardInput.normalized;
                 break;
             case MoveType.Mouse:
-                Vector2 currentPos = transform.position;
+                Vector2 currentPos = rigidbody2D.position;
                 Vector2 targetDir  = (targetPosition - currentPos).normalized;
-                moveDirection = new Vector2(targetDir.x, targetDir.y);
+                moveDirection = targetDir;
 
                 if (Vector2.Distance(currentPos, targetPosition) < 0.1f)
                 {
@@ -78,7 +78,8 @@ public class PlayerMoveController : MonoBehaviour
                 break;
         }
 
-        characterController.Move(moveDirection * moveSpeed * Time.deltaTime);
+        Vector2 nextPos = rigidbody2D.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
+        rigidbody2D.MovePosition(nextPos);
     }
 
     public bool IsArrived()

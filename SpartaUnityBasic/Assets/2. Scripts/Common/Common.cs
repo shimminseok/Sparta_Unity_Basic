@@ -11,7 +11,8 @@ public enum PlayerState
 
 public interface IState<T> where T : MonoBehaviour
 {
-    void Enter(T _owenr);
-    void Execute(T owner);
-    void Exit(T _owenr);
+    void OnEnter(T _owenr);
+    void OnUpdate(T owner);
+    void OnFixedUpdate(T owner);
+    void OnExit(T _owenr);
 }

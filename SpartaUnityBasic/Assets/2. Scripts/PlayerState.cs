@@ -1,56 +1,62 @@
 using UnityEngine;
 
-
-namespace PlayerStates
+public class IdleState : IState<PlayerController>
 {
-    public class IdleState : IState<PlayerController>
+    public void OnEnter(PlayerController owenr)
     {
-        public void Enter(PlayerController owenr)
-        {
-            Debug.Log("Idle 상태 진입");
-        }
+        Debug.Log("Idle 상태 진입");
+    }
 
-        public void Execute(PlayerController owner)
-        {
-            owner.PlayerMoveController.HandleInput();
-            if(owner.IsMouseMoving() || !owner.PlayerMoveController.IsKeyboardInputIdle())
-                owner.ChangeState(PlayerState.Move);
-        }
+    public void OnUpdate(PlayerController owner)
+    {
+        owner.PlayerMoveController.HandleInput();
+        if (owner.IsMouseMoving() || !owner.PlayerMoveController.IsKeyboardInputIdle())
+            owner.ChangeState(PlayerState.Move);
+    }
 
-        public void Exit(PlayerController owenr)
+    public void OnFixedUpdate(PlayerController owner)
+    {
+    }
+
+    public void OnExit(PlayerController owenr)
+    {
+    }
+}
+
+
+public class MoveState : IState<PlayerController>
+{
+    private bool isMouseMove = false;
+
+    public void OnEnter(PlayerController owenr)
+    {
+        Debug.Log("Move 상태 진입");
+        isMouseMove = owenr.IsMouseMoving();
+        owenr.Animator.SetBool("IsMove", true);
+    }
+
+    public void OnUpdate(PlayerController owner)
+    {
+        owner.PlayerMoveController.HandleInput();
+        owner.PlayerMoveController.HandleMove();
+        if (isMouseMove)
         {
+            if (owner.IsArrived())
+                owner.ChangeState(PlayerState.Idle);
+        }
+        else
+        {
+            if (owner.PlayerMoveController.IsKeyboardInputIdle())
+                owner.ChangeState(PlayerState.Idle);
         }
     }
-    public class MoveState : IState<PlayerController>
+
+    public void OnFixedUpdate(PlayerController owner)
     {
-        private bool isMouseMove = false;
-        public void Enter(PlayerController owenr)
-        {
-            Debug.Log("Move 상태 진입");
-            isMouseMove = owenr.IsMouseMoving();
-            owenr.Animator.SetBool("IsMove",true);
-        }
+    }
 
-        public void Execute(PlayerController owner)
-        {
-            owner.PlayerMoveController.HandleInput();
-            owner.PlayerMoveController.HandleMove();
-            if (isMouseMove)
-            {
-                if(owner.IsArrived())
-                    owner.ChangeState(PlayerState.Idle);
-            }
-            else
-            {
-                if (owner.PlayerMoveController.IsKeyboardInputIdle())
-                    owner.ChangeState(PlayerState.Idle);
-            }
-        }
-
-        public void Exit(PlayerController owenr)
-        {
-            owenr.Animator.SetBool("IsMove",false);
-
-        }
+    public void OnExit(PlayerController owenr)
+    {
+        owenr.Animator.SetBool("IsMove", false);
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using PlayerStates;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMoveController))]
@@ -9,14 +8,13 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Commponent")]
-    private StateMachine<PlayerController> stateMachine;
-    public PlayerMoveController PlayerMoveController {get; private set;}
-    public Animator Animator { get; private set; }
+    [Header("Commponent")] private StateMachine<PlayerController> stateMachine;
+    public PlayerMoveController PlayerMoveController { get; private set; }
+    public Animator             Animator             { get; private set; }
 
     private IState<PlayerController>[] states;
     private PlayerState currentState;
-    
+
     private void Awake()
     {
         PlayerMoveController = GetComponent<PlayerMoveController>();
@@ -27,18 +25,18 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        
     }
 
     void Update()
     {
-        stateMachine.Excute();
+        stateMachine?.OnUpdate();
     }
 
     private void FixedUpdate()
     {
-        
+        stateMachine.OnFixedUpdate();
     }
+
     private void SetupState()
     {
         states = new IState<PlayerController>[Enum.GetValues(typeof(PlayerState)).Length];
@@ -50,13 +48,14 @@ public class PlayerController : MonoBehaviour
         stateMachine = new StateMachine<PlayerController>();
         stateMachine.Setup(this, states[(int)PlayerState.Idle]);
     }
+
     IState<PlayerController> GetState(PlayerState state)
     {
         return state switch
         {
             PlayerState.Idle => new IdleState(),
             PlayerState.Move => new MoveState(),
-            _ => null
+            _                => null
         };
     }
 
@@ -75,5 +74,4 @@ public class PlayerController : MonoBehaviour
     {
         return PlayerMoveController.IsArrived();
     }
-
 }

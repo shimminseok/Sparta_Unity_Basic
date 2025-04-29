@@ -12,11 +12,19 @@ public class StateMachine<T> where T : MonoBehaviour
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
-    public void Excute()
+    public void OnUpdate()
     {
         if (currentState != null)
         {
-            currentState.Execute(ownerEntity);
+            currentState.OnUpdate(ownerEntity);
+        }
+    }
+
+    public void OnFixedUpdate()
+    {
+        if (currentState != null)
+        {
+            currentState.OnFixedUpdate(ownerEntity);
         }
     }
 
@@ -28,10 +36,10 @@ public class StateMachine<T> where T : MonoBehaviour
 
         if (currentState != null)
         {
-            currentState.Exit(ownerEntity);
+            currentState.OnExit(ownerEntity);
         }
 
         currentState = newState;
-        currentState.Enter(ownerEntity);
+        currentState.OnEnter(ownerEntity);
     }
 }
