@@ -19,7 +19,7 @@ public class PlayerMoveController : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 5f;
 
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D ridgb;
     private SpriteRenderer playerSpriteRenderer;
     private Camera mainCamera;
 
@@ -28,7 +28,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        ridgb = GetComponent<Rigidbody2D>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
     }
@@ -74,8 +74,8 @@ public class PlayerMoveController : MonoBehaviour
             case MoveType.Keyboard:
                 return keyboardInput;
             case MoveType.Mouse:
-                Vector2 dir = (targetPosition - rigidbody2D.position).normalized;
-                if (Vector2.Distance(rigidbody2D.position, targetPosition) < 0.1f)
+                Vector2 dir = (targetPosition - ridgb.position).normalized;
+                if (Vector2.Distance(ridgb.position, targetPosition) < 0.1f)
                     CurrentMoveType = MoveType.None;
                 return dir;
             default:
@@ -89,8 +89,8 @@ public class PlayerMoveController : MonoBehaviour
         if (moveDirection.x != 0)
             playerSpriteRenderer.flipX = moveDirection.x < 0;
 
-        Vector2 nextPosition = rigidbody2D.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
-        rigidbody2D.MovePosition(nextPosition);
+        Vector2 nextPosition = ridgb.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
+        ridgb.MovePosition(nextPosition);
     }
 
     public bool IsArrived()           => Vector2.Distance(transform.position, targetPosition) < 0.1f;

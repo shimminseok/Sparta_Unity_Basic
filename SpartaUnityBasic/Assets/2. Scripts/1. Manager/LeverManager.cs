@@ -8,21 +8,20 @@ public class LeverManager : Singleton<LeverManager>
 {
     [SerializeField] private Tilemap tilemap;
 
-    [SerializeField] private Tile leverOnTile;
+    [SerializeField] private Sprite leverOnTile;
 
-    [SerializeField] private Tile leverOffTile;
+    [SerializeField] private Sprite leverOffTile;
 
     [SerializeField] private List<Tile> doorOpenTiles = new();
     [SerializeField] private List<Tile> doorClosedTiles = new();
 
-    private Dictionary<string, Vector3Int> leverTileMap = new Dictionary<string, Vector3Int>();
+    private Dictionary<string, SpriteRenderer> leverTileMap = new Dictionary<string, SpriteRenderer>();
     private Dictionary<string, DoorData> leverToDoors = new Dictionary<string, DoorData>();
 
 
-    public void AddLever(string leverName, Vector3 position)
+    public void AddLever(string leverName, SpriteRenderer renderer)
     {
-        Vector3Int tilePosition = tilemap.WorldToCell(position);
-        leverTileMap[leverName] = tilePosition;
+        leverTileMap[leverName] = renderer;
     }
 
     public void RegisterDoor(string leverId, List<Transform> worldPositions, GameObject colliderObject)
@@ -43,8 +42,10 @@ public class LeverManager : Singleton<LeverManager>
 
     public void ToggleLever(string leverName, bool isOpen)
     {
-        if (leverTileMap.TryGetValue(leverName, out var leverPosition))
-            tilemap.SetTile(leverPosition, isOpen ? leverOnTile : leverOffTile);
+        if (leverTileMap.TryGetValue(leverName, out var renderer))
+        {
+            renderer.sprite = isOpen ? leverOnTile : leverOffTile;
+        }
 
         if (leverToDoors.TryGetValue(leverName, out var door))
         {

@@ -14,7 +14,7 @@ public class LeverController : MonoBehaviour, IInterfactable
 
     void Start()
     {
-        LeverManager.Instance.AddLever(leverName, transform.position);
+        LeverManager.Instance.AddLever(leverName, GetComponent<SpriteRenderer>());
         LeverManager.Instance.RegisterDoor(leverName, doorPos, colliderObject);
     }
 

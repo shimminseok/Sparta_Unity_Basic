@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMoveController))]
 [RequireComponent(typeof(StateMachine<PlayerController>))]
 [RequireComponent(typeof(Animator))]
-public class PlayerController : Singleton<PlayerController>
+public class PlayerController : MonoBehaviour
 {
     [Header("Commponent")] private StateMachine<PlayerController> stateMachine;
     public PlayerMoveController PlayerMoveController { get; private set; }
@@ -42,7 +42,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        stateMachine.OnFixedUpdate();
+        stateMachine?.OnFixedUpdate();
     }
 
     private void SetupState()

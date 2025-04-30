@@ -10,6 +10,21 @@ public enum PlayerState
     Move,
 }
 
+public enum MiniGameType
+{
+    TheStack,
+}
+
+public enum NPCFunction
+{
+    MiniGame,
+}
+
+public interface ITable
+{
+    public          Type Type { get; }
+    public abstract void CreateTable();
+}
 
 public interface IState<T> where T : MonoBehaviour
 {
@@ -26,10 +41,31 @@ public interface IInterfactable
     void Interact();
 }
 
+public interface INPCFunction
+{
+    NPCFunction FuncType { get; }
+    void        Initialize(NPCData _data);
+    void        Execute();
+}
 
 [Serializable]
 public class DoorData
 {
     public List<Vector3Int> tilePos;
     public GameObject colliderObj;
+}
+
+[Serializable]
+public class NPCData
+{
+    public int NPCID;
+    public string Name;
+    public List<string> DefaultDialogues;
+
+    [Header("Function")] public NPCFunction NPCFunctions;
+
+    public bool HasFunction(NPCFunction _func)
+    {
+        return (NPCFunctions & _func) == _func;
+    }
 }

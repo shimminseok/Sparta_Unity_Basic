@@ -11,7 +11,6 @@ public class StateMachine<T> where T : MonoBehaviour
         ChangeState(entryState);
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     public void OnUpdate()
     {
         if (currentState != null)
