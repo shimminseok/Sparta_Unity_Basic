@@ -34,11 +34,9 @@ public class IdleState : IState<PlayerController>
 public class MoveState : IState<PlayerController>
 {
     private readonly int MoveHash = Animator.StringToHash("IsMove");
-    private bool isMouseMove = false;
 
     public void OnEnter(PlayerController owenr)
     {
-        isMouseMove = owenr.IsMouseMoving();
         owenr.Animator.SetBool(MoveHash, true);
     }
 

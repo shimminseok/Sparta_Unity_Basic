@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMoveController))]
-[RequireComponent(typeof(StateMachine<PlayerController>))]
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
@@ -21,7 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMoveController = GetComponent<PlayerMoveController>();
         Animator = GetComponent<Animator>();
-
         SetupState();
     }
 

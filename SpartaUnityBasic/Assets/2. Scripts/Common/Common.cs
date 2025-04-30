@@ -44,7 +44,7 @@ public interface IInterfactable
 public interface INPCFunction
 {
     NPCFunction FuncType { get; }
-    void        Initialize(NPCData _data);
+    void        Initialize(NPCData data);
     void        Execute();
 }
 

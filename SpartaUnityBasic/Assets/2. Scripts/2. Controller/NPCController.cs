@@ -4,38 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Animator))]
 public class NPCController : MonoBehaviour, IInterfactable
 {
     [SerializeField] private int npcID;
 
-    public string Name { get; private set; }
-    private NPCData npcData;
+    public string  Name    { get; private set; }
+    public NPCData NpcData { get; private set; }
 
     private INPCFunction npcFunction;
-    private BoxCollider2D boxCollider2D;
 
 
     public int NPCID => npcID;
 
     private void Awake()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
         Init();
-    }
-
-
-    void Start()
-    {
-    }
-
-    void Update()
-    {
     }
 
     public void Init()
     {
-        npcData = TableManager.Instance.GetTable<NPCTable>()?.GetDataByID(npcID);
-        Name = npcData.Name;
+        NpcData = TableManager.Instance.GetTable<NPCTable>()?.GetDataByID(npcID);
+        Name = NpcData.Name;
 
         AddNPCComponents();
     }
@@ -45,9 +35,9 @@ public class NPCController : MonoBehaviour, IInterfactable
         var functionType = Enum.GetValues(typeof(NPCFunction));
         foreach (NPCFunction func in functionType)
         {
-            if (HasFunction(npcData.NPCFunctions, func))
+            if (HasFunction(NpcData.NPCFunctions, func))
             {
-                AddComponentForFunction(func, npcData);
+                AddComponentForFunction(func);
             }
         }
     }
@@ -57,15 +47,15 @@ public class NPCController : MonoBehaviour, IInterfactable
         return (npcFunctions & functionToCheck) == functionToCheck;
     }
 
-    void AddComponentForFunction(NPCFunction _func, NPCData _npcData)
+    void AddComponentForFunction(NPCFunction func)
     {
-        Type componentType = GetComponentTypeForFunction(_func);
+        Type componentType = GetComponentTypeForFunction(func);
         if (componentType != null && !gameObject.TryGetComponent(componentType, out _))
         {
             var component = gameObject.AddComponent(componentType);
             if (component is INPCFunction npcComponent)
             {
-                npcComponent.Initialize(npcData);
+                npcComponent.Initialize(NpcData);
                 npcFunction = npcComponent;
             }
         }

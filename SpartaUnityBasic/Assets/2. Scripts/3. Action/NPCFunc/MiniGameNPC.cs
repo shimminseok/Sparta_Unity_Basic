@@ -6,15 +6,16 @@ public class MiniGameNPC : MonoBehaviour, INPCFunction
 {
     [SerializeField] private MiniGameType miniGameType;
 
-
+    private NPCData npcData;
     public NPCFunction FuncType { get; }
 
-    public void Initialize(NPCData _data)
+    public void Initialize(NPCData data)
     {
+        npcData = data;
     }
 
     public void Execute()
     {
-        Debug.Log("일단 Execute 했다잉");
+        UIDialogue.Instance.StartDefaultDialogue(npcData);
     }
 }
