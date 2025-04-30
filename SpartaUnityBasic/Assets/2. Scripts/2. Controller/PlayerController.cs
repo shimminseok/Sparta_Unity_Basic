@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMoveController))]
 [RequireComponent(typeof(StateMachine<PlayerController>))]
 [RequireComponent(typeof(Animator))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
     [Header("Commponent")] private StateMachine<PlayerController> stateMachine;
     public PlayerMoveController PlayerMoveController { get; private set; }
@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private IState<PlayerController>[] states;
     private PlayerState currentState;
+
+    private IInterfactable currentTarget;
 
     private void Awake()
     {
@@ -30,6 +32,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         stateMachine?.OnUpdate();
+        TryStateTransition();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            currentTarget?.Interact();
+        }
     }
 
     private void FixedUpdate()
@@ -59,6 +67,15 @@ public class PlayerController : MonoBehaviour
         };
     }
 
+    private void TryStateTransition()
+    {
+        var next = states[(int)currentState].CheckTransition(this);
+        if (next.HasValue && next.Value != currentState)
+        {
+            ChangeState(next.Value);
+        }
+    }
+
     public void ChangeState(PlayerState newState)
     {
         stateMachine.ChangeState(states[(int)newState]);
@@ -73,5 +90,22 @@ public class PlayerController : MonoBehaviour
     public bool IsArrived()
     {
         return PlayerMoveController.IsArrived();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<IInterfactable>(out IInterfactable interfactable))
+        {
+            currentTarget = interfactable;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.TryGetComponent<IInterfactable>(out IInterfactable interfactable))
+        {
+            if (currentTarget == interfactable)
+                currentTarget = null;
+        }
     }
 }

@@ -14,18 +14,22 @@ public class PlayerMoveController : MonoBehaviour
         Keyboard
     }
 
-    private Rigidbody2D rigidbody2D;
-    public MoveType CurrentMoveType { get; set; } = MoveType.None;
+
+    public MoveType CurrentMoveType { get; private set; } = MoveType.None;
 
     [SerializeField] private float moveSpeed = 5f;
-    private Vector2 targetPosition;
 
+    private Rigidbody2D rigidbody2D;
+    private SpriteRenderer playerSpriteRenderer;
+    private Camera mainCamera;
+
+    private Vector2 targetPosition;
     private Vector2 keyboardInput;
-    Camera mainCamera;
 
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
     }
 
@@ -44,51 +48,51 @@ public class PlayerMoveController : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(0))
         {
-            Ray     ray    = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Vector2 origin = ray.origin;
-            Vector2 dir    = ray.direction;
+            TrySetMouseTarget();
+        }
+        else if (CurrentMoveType == MoveType.Keyboard)
+        {
+            CurrentMoveType = MoveType.None;
+        }
+    }
 
-            RaycastHit2D hit = Physics2D.Raycast(origin, dir, Mathf.Infinity);
-            if (hit.collider != null)
-            {
-                targetPosition = hit.point;
-                CurrentMoveType = MoveType.Mouse;
-            }
+    private void TrySetMouseTarget()
+    {
+        Ray          ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+        if (hit.collider != null)
+        {
+            targetPosition = hit.point;
+            CurrentMoveType = MoveType.Mouse;
+        }
+    }
+
+    private Vector2 GetMoveDirection()
+    {
+        switch (CurrentMoveType)
+        {
+            case MoveType.Keyboard:
+                return keyboardInput;
+            case MoveType.Mouse:
+                Vector2 dir = (targetPosition - rigidbody2D.position).normalized;
+                if (Vector2.Distance(rigidbody2D.position, targetPosition) < 0.1f)
+                    CurrentMoveType = MoveType.None;
+                return dir;
+            default:
+                return Vector2.zero;
         }
     }
 
     public void HandleMove()
     {
-        Vector2 moveDirection = Vector2.zero;
-        switch (CurrentMoveType)
-        {
-            case MoveType.Keyboard:
-                moveDirection = keyboardInput.normalized;
-                break;
-            case MoveType.Mouse:
-                Vector2 currentPos = rigidbody2D.position;
-                Vector2 targetDir  = (targetPosition - currentPos).normalized;
-                moveDirection = targetDir;
+        Vector2 moveDirection = GetMoveDirection();
+        if (moveDirection.x != 0)
+            playerSpriteRenderer.flipX = moveDirection.x < 0;
 
-                if (Vector2.Distance(currentPos, targetPosition) < 0.1f)
-                {
-                    CurrentMoveType = MoveType.None;
-                }
-
-                break;
-        }
-
-        Vector2 nextPos = rigidbody2D.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
-        rigidbody2D.MovePosition(nextPos);
+        Vector2 nextPosition = rigidbody2D.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
+        rigidbody2D.MovePosition(nextPosition);
     }
 
-    public bool IsArrived()
-    {
-        return Vector2.Distance(transform.position, targetPosition) < 0.1f;
-    }
-
-    public bool IsKeyboardInputIdle()
-    {
-        return Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0;
-    }
+    public bool IsArrived()           => Vector2.Distance(transform.position, targetPosition) < 0.1f;
+    public bool IsKeyboardInputIdle() => Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0;
 }
