@@ -96,6 +96,8 @@ public class PlayerMoveController : MonoBehaviour
         ridgb.MovePosition(nextPosition);
     }
 
+    public void ChangeMoveSpeed(float speed) => moveSpeed = speed;
+
     public bool IsArrived()           => Vector2.Distance(transform.position, targetPosition) < 0.1f;
     public bool IsKeyboardInputIdle() => Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0;
 }

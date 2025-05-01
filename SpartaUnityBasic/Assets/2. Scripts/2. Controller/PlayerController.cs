@@ -16,15 +16,14 @@ public class PlayerController : MonoBehaviour
 
     private IInterfactable currentTarget;
 
+    private RuntimeAnimatorController originAnimator;
+
     private void Awake()
     {
         PlayerMoveController = GetComponent<PlayerMoveController>();
         Animator = GetComponent<Animator>();
         SetupState();
-    }
-
-    void Start()
-    {
+        originAnimator = Animator.runtimeAnimatorController;
     }
 
     void Update()
@@ -35,6 +34,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && !UIDialogue.Instance.IsDialogueRunning)
         {
             currentTarget?.Interact();
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            TransformTo();
         }
     }
 
@@ -80,14 +83,22 @@ public class PlayerController : MonoBehaviour
         currentState = newState;
     }
 
-    public bool IsMouseMoving()
+    public void TransformTo()
     {
-        return PlayerMoveController.CurrentMoveType == PlayerMoveController.MoveType.Mouse;
-    }
+        if (originAnimator != Animator.runtimeAnimatorController)
+        {
+            Animator.runtimeAnimatorController = originAnimator;
+            return;
+        }
 
-    public bool IsArrived()
-    {
-        return PlayerMoveController.IsArrived();
+        var transformData = UITransform.Instance.SelectedTaransformData;
+
+
+        if (transformData != null)
+        {
+            Animator.runtimeAnimatorController = transformData.AnimatorController;
+            PlayerMoveController.ChangeMoveSpeed(transformData.Speed);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -7,22 +7,16 @@ public class TransformManager : MonoBehaviour
 {
     public static TransformManager Instance { get; private set; }
 
+
     private void Awake()
     {
         Instance = this;
     }
 
-    void Start()
+    private void Start()
     {
     }
 
-    void Update()
-    {
-    }
-
-    public void TransformTo()
-    {
-    }
 
     private void OnDestroy()
     {

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,20 +10,21 @@ public class TransformListSlot : MonoBehaviour
     [SerializeField] private Image transformIcon;
     [SerializeField] private Toggle cheackToggle;
 
-    void Start()
+    TransformData transformData;
+
+    private void Start()
     {
+        cheackToggle.group = GetComponentInParent<ToggleGroup>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetTransformIconSlot(TransformData data)
     {
-    }
-
-    public void SetTransformIconSlot()
-    {
+        transformData = data;
+        transformIcon.sprite = transformData.TransformIcon;
     }
 
     public void OnClickSlot()
     {
+        UITransform.Instance.SelectTransform(cheackToggle.isOn ? transformData : null);
     }
 }

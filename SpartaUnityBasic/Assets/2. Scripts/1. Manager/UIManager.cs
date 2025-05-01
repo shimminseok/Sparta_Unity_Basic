@@ -6,7 +6,6 @@ public class UIManager : Singleton<UIManager>
 {
     public List<UIBase> OpenedPopup { get; private set; } = new();
 
-
     public void CheckOpenPopup(UIBase _panel)
     {
         if (OpenedPopup.Contains(_panel))

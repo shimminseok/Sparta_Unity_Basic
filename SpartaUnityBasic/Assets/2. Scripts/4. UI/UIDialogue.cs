@@ -23,13 +23,8 @@ public class UIDialogue : UIBase
 
     protected override void Awake()
     {
+        Instance = this;
         base.Awake();
-        if (intance == null)
-            Instance = this;
-    }
-
-    private void Update()
-    {
     }
 
     void ResetDescription()
@@ -72,5 +67,10 @@ public class UIDialogue : UIBase
         ResetDescription();
         IsDialogueRunning = false;
         UIMinigamePanel.Instance.Close();
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

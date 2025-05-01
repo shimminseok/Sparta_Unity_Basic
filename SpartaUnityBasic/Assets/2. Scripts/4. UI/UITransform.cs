@@ -2,39 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class UITransform : MonoBehaviour
+public class UITransform : UIBase
 {
     public static UITransform Instance { get; private set; }
 
-    [SerializeField]
-    private GameObject transformListUI;
 
-    private void Awake()
+    [SerializeField] private TransformListSlot transformListSlotPrefabs;
+    [SerializeField] private Transform tranformListSlotRoot;
+    public TransformData SelectedTaransformData { get; private set; }
+
+    protected override void Awake()
     {
         Instance = this;
+        base.Awake();
     }
 
     void Start()
     {
+        CreateTransformListSlot();
     }
 
-    void Update()
+    public void CreateTransformListSlot()
     {
+        foreach (var data in TableManager.Instance.GetTable<TransformTable>().dataDic.Values)
+        {
+            var slot = Instantiate(transformListSlotPrefabs, tranformListSlotRoot);
+            slot.SetTransformIconSlot(data);
+        }
     }
 
-    public void CreateTransformList()
+    public void SelectTransform(TransformData data)
     {
-    }
-
-    public void OpenTransformList()
-    {
-        transformListUI.SetActive(true);
-    }
-
-    public void CloseTransformList()
-    {
-        transformListUI.SetActive(false);
+        SelectedTaransformData = data;
     }
 
     private void OnDestroy()

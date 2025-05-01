@@ -14,7 +14,6 @@ public class NPCController : MonoBehaviour, IInterfactable
 
     private INPCFunction npcFunction;
 
-
     public int NPCID => npcID;
 
     private void Awake()

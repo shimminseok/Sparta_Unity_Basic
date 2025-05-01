@@ -28,8 +28,8 @@ public class UIMinigamePanel : UIBase
 
     protected override void Awake()
     {
-        base.Awake();
         Instance = this;
+        base.Awake();
     }
 
     void Start()

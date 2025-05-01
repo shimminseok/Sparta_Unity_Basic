@@ -84,3 +84,12 @@ public class MiniGameData
     public Sprite MiniGameIcon;
     public MiniGameType MiniGameType;
 }
+
+[Serializable]
+public class TransformData
+{
+    public int TransformID;
+    public Sprite TransformIcon;
+    public RuntimeAnimatorController AnimatorController;
+    public int Speed;
+}
