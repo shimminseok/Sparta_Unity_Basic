@@ -13,7 +13,8 @@ public enum PlayerState
 
 public enum MiniGameType
 {
-    TheStack,
+    None = -1,
+    FlappyBird,
 }
 
 [Flags]
@@ -72,4 +73,14 @@ public class NPCData
     {
         return (NPCFunction & _func) == _func;
     }
+}
+
+[Serializable]
+public class MiniGameData
+{
+    public int MiniGameID;
+    public string MiniGameName;
+
+    public Sprite MiniGameIcon;
+    public MiniGameType MiniGameType;
 }

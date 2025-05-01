@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Obstacle : MonoBehaviour
 {
@@ -14,8 +16,8 @@ public class Obstacle : MonoBehaviour
     public Transform bottomObject;
 
     public float widthPadding = 4f;
-    
-    
+
+
     public Vector2 SetRanmdonPlace(Vector2 lastPosition, int obstacleCount)
     {
         float holeSize     = Random.Range(holeSizeMin, holeSizeMax);

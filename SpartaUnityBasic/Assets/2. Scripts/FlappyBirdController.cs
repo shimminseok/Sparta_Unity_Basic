@@ -17,12 +17,11 @@ public class FlappyBirdController : MonoBehaviour
 
     private bool isFlap = false;
     public bool godMode = false;
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
-        
-        
     }
 
     // Update is called once per frame
@@ -55,7 +54,7 @@ public class FlappyBirdController : MonoBehaviour
     {
         if (isDead)
             return;
-        
+
         Vector2 velocity = rigidbody.velocity;
 
         velocity.x = forwardSpeed;
@@ -69,20 +68,27 @@ public class FlappyBirdController : MonoBehaviour
         rigidbody.velocity = velocity;
 
         float angle = Mathf.Clamp((rigidbody.velocity.y * 10f), -90f, 90f);
-        transform.rotation = Quaternion.Euler(0,0,angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+            FlappyBirdGameManager.Instance.AddScore(1);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(godMode)
+        if (godMode)
             return;
-        
-        if(isDead)
+
+        if (isDead)
             return;
+
 
         animator.SetTrigger(Die);
         isDead = true;
-        deathCooldown = 1f;    
+        deathCooldown = 1f;
+        FlappyBirdGameManager.Instance.GameOver();
     }
-
 }

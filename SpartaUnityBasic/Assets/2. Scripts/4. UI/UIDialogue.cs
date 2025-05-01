@@ -36,19 +36,16 @@ public class UIDialogue : UIBase
     {
         dialogueText.text = string.Empty;
         StopAllCoroutines();
+        currentCoroutine = null;
     }
 
-    public void StartDefaultDialogue(NPCData data)
+
+    public void StartDefaultDialogue(NPCData data, Action onDialogueComplete = null)
     {
         ResetDescription();
-        if (currentCoroutine != null)
-        {
-            StopCoroutine(currentCoroutine);
-        }
-
         npcName.text = data.Name;
         Open();
-        currentCoroutine = StartCoroutine(StartDialogue(data.DefaultDialogues));
+        currentCoroutine = StartCoroutine(StartDialogue(data.DefaultDialogues, onDialogueComplete));
     }
 
     private IEnumerator StartDialogue(List<string> desc, Action onDialogueComplete = null)
@@ -56,8 +53,9 @@ public class UIDialogue : UIBase
         IsDialogueRunning = true;
         for (int i = 0; i < desc.Count; i++)
         {
-            dialogueText.text = desc[i];
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
+            dialogueText.text = desc[i];
+            yield return null; //한프레임 쉬도록
         }
 
         onDialogueComplete?.Invoke();
@@ -73,5 +71,6 @@ public class UIDialogue : UIBase
         base.Close();
         ResetDescription();
         IsDialogueRunning = false;
+        UIMinigamePanel.Instance.Close();
     }
 }

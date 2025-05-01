@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -36,6 +37,8 @@ public class PlayerMoveController : MonoBehaviour
 
     public void HandleInput()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 

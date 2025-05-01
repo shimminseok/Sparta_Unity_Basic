@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public class LeverManager : Singleton<LeverManager>
+public class LeverManager : MonoBehaviour
 {
+    public static LeverManager Instance { get; private set; }
     [SerializeField] private Tilemap tilemap;
 
     [SerializeField] private Sprite leverOnTile;
@@ -18,6 +20,11 @@ public class LeverManager : Singleton<LeverManager>
     private Dictionary<string, SpriteRenderer> leverTileMap = new Dictionary<string, SpriteRenderer>();
     private Dictionary<string, DoorData> leverToDoors = new Dictionary<string, DoorData>();
 
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void AddLever(string leverName, SpriteRenderer renderer)
     {
