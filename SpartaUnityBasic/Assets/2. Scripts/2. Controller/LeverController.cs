@@ -23,4 +23,8 @@ public class LeverController : MonoBehaviour, IInterfactable
         isOnLever = !isOnLever;
         LeverManager.Instance.ToggleLever(leverName, isOnLever);
     }
+
+    public void Eixt()
+    {
+    }
 }

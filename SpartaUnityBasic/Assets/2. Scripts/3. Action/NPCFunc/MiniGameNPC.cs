@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MiniGameNPC : MonoBehaviour, INPCFunction
 {
-    [SerializeField] private MiniGameType miniGameType;
-
     private NPCData npcData;
     public NPCFunction FuncType { get; }
 

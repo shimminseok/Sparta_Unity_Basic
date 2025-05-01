@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         stateMachine?.OnUpdate();
         TryStateTransition();
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && !UIDialogue.Instance.IsDialogueRunning)
         {
             currentTarget?.Interact();
         }
@@ -103,7 +103,10 @@ public class PlayerController : MonoBehaviour
         if (other.TryGetComponent<IInterfactable>(out IInterfactable interfactable))
         {
             if (currentTarget == interfactable)
+            {
+                currentTarget.Eixt();
                 currentTarget = null;
+            }
         }
     }
 }

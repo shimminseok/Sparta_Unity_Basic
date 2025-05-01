@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class UIDialogue : UIBase
 {
@@ -14,10 +15,10 @@ public class UIDialogue : UIBase
     [SerializeField] private TextMeshProUGUI dialogueText;
 
 
-    private bool isDialogueRunning;
     private bool isInputNextDialogue;
 
     private Coroutine currentCoroutine;
+    public bool IsDialogueRunning { get; private set; }
 
 
     protected override void Awake()
@@ -29,10 +30,6 @@ public class UIDialogue : UIBase
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            isInputNextDialogue = true;
-        }
     }
 
     void ResetDescription()
@@ -43,7 +40,6 @@ public class UIDialogue : UIBase
 
     public void StartDefaultDialogue(NPCData data)
     {
-        
         ResetDescription();
         if (currentCoroutine != null)
         {
@@ -57,12 +53,11 @@ public class UIDialogue : UIBase
 
     private IEnumerator StartDialogue(List<string> desc, Action onDialogueComplete = null)
     {
-        isDialogueRunning = true;
+        IsDialogueRunning = true;
         for (int i = 0; i < desc.Count; i++)
         {
             dialogueText.text = desc[i];
-            yield return new WaitUntil(() => isInputNextDialogue);
-            isInputNextDialogue = false;
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
         }
 
         onDialogueComplete?.Invoke();
@@ -77,6 +72,6 @@ public class UIDialogue : UIBase
     {
         base.Close();
         ResetDescription();
-        isDialogueRunning = false;
+        IsDialogueRunning = false;
     }
 }

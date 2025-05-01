@@ -19,6 +19,10 @@ public class NPCController : MonoBehaviour, IInterfactable
 
     private void Awake()
     {
+    }
+
+    private void Start()
+    {
         Init();
     }
 
@@ -35,16 +39,11 @@ public class NPCController : MonoBehaviour, IInterfactable
         var functionType = Enum.GetValues(typeof(NPCFunction));
         foreach (NPCFunction func in functionType)
         {
-            if (HasFunction(NpcData.NPCFunctions, func))
+            if (NpcData.HasFunction(func))
             {
                 AddComponentForFunction(func);
             }
         }
-    }
-
-    bool HasFunction(NPCFunction npcFunctions, NPCFunction functionToCheck)
-    {
-        return (npcFunctions & functionToCheck) == functionToCheck;
     }
 
     void AddComponentForFunction(NPCFunction func)
@@ -73,5 +72,10 @@ public class NPCController : MonoBehaviour, IInterfactable
     public void Interact()
     {
         npcFunction?.Execute();
+    }
+
+    public void Eixt()
+    {
+        UIDialogue.Instance.Close();
     }
 }

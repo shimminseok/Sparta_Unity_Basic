@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public enum PlayerState
@@ -15,6 +16,7 @@ public enum MiniGameType
     TheStack,
 }
 
+[Flags]
 public enum NPCFunction
 {
     MiniGame,
@@ -39,6 +41,7 @@ public interface IState<T> where T : MonoBehaviour
 public interface IInterfactable
 {
     void Interact();
+    void Eixt();
 }
 
 public interface INPCFunction
@@ -62,10 +65,11 @@ public class NPCData
     public string Name;
     public List<string> DefaultDialogues;
 
-    [Header("Function")] public NPCFunction NPCFunctions;
+    [FormerlySerializedAs("NPCFunctions")] [Header("Function")]
+    public NPCFunction NPCFunction;
 
     public bool HasFunction(NPCFunction _func)
     {
-        return (NPCFunctions & _func) == _func;
+        return (NPCFunction & _func) == _func;
     }
 }
