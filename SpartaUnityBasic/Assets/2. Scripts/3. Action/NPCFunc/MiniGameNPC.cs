@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MiniGameNPC : MonoBehaviour, INPCFunction
 {
-    private NPCData npcData;
     public NPCFunction FuncType { get; }
+    private NPCData npcData;
 
     public void Initialize(NPCData data)
     {
@@ -14,6 +14,6 @@ public class MiniGameNPC : MonoBehaviour, INPCFunction
 
     public void Execute()
     {
-        UIDialogue.Instance.StartDefaultDialogue(npcData, UIMinigamePanel.Instance.Open);
+        UIDialogue.Instance.StartDefaultDialogue(npcData.DefaultDialogues, UIMinigamePanel.Instance.Open);
     }
 }

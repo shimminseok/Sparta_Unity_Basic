@@ -46,6 +46,7 @@ public class FlappyBirdGameManager : MonoBehaviour
         OnScoreChanged?.Invoke(currentScore);
     }
 
+    //파괴되었을때
     private void OnDestroy()
     {
         OnScoreChanged = null;

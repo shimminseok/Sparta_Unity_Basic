@@ -29,6 +29,9 @@ public class CameraController : MonoBehaviour
         mapBounds = tilemap.localBounds;
     }
 
+// 오클루젼 컬링 - 카메라와 오브젝트에 가려져있는걸 비활성화
+// 절두체   컬링 - 카메라 밖에 있는것만 비활성화
+//LOD
     private void Update()
     {
         HandleZoom();
@@ -37,6 +40,7 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         if (target == null) return;
+
 
         Vector3 desiredPosition = target.position;
 

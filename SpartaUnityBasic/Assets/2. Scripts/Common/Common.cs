@@ -20,7 +20,9 @@ public enum MiniGameType
 [Flags]
 public enum NPCFunction
 {
-    MiniGame,
+    None = 0,
+    MiniGame = 1 << 0,
+    Story = 1 << 1
 }
 
 public interface ITable
@@ -66,7 +68,7 @@ public class NPCData
     public string Name;
     public List<string> DefaultDialogues;
 
-    [FormerlySerializedAs("NPCFunctions")] [Header("Function")]
+    [Header("Function")]
     public NPCFunction NPCFunction;
 
     public bool HasFunction(NPCFunction _func)

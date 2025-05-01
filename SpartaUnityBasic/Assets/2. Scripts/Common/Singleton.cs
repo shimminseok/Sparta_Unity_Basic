@@ -41,8 +41,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     static void SteupInstance()
     {
-        GameObject gameObj = Instantiate(new GameObject());
-        gameObj.name = typeof(T).Name;
+        GameObject gameObj = new GameObject(typeof(T).Name);
         instance = gameObj.AddComponent<T>();
     }
 }

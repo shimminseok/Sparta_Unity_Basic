@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class FlappyBirdController : MonoBehaviour
 {
     private readonly int Die = Animator.StringToHash("Die");
 
     private Animator animator;
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rigid2D;
 
     public float flapForce = 6f;
     public float forwardSpeed = 3f;
@@ -21,32 +22,18 @@ public class FlappyBirdController : MonoBehaviour
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigid2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (isDead)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
-            if (deathCooldown <= 0)
-            {
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-                {
-                    //게임 재시작
-                }
-            }
-            else
-            {
-                deathCooldown -= Time.deltaTime;
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-            {
-                isFlap = true;
-            }
+            isFlap = true;
         }
     }
 
@@ -55,7 +42,7 @@ public class FlappyBirdController : MonoBehaviour
         if (isDead)
             return;
 
-        Vector2 velocity = rigidbody.velocity;
+        Vector2 velocity = rigid2D.velocity;
 
         velocity.x = forwardSpeed;
 
@@ -65,9 +52,9 @@ public class FlappyBirdController : MonoBehaviour
             isFlap = false;
         }
 
-        rigidbody.velocity = velocity;
+        rigid2D.velocity = velocity;
 
-        float angle = Mathf.Clamp((rigidbody.velocity.y * 10f), -90f, 90f);
+        float angle = Mathf.Clamp((rigid2D.velocity.y * 10f), -90f, 90f);
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
@@ -77,7 +64,9 @@ public class FlappyBirdController : MonoBehaviour
             return;
 
         if (other.gameObject.CompareTag("Obstacle"))
-            FlappyBirdGameManager.Instance.AddScore(1);
+        {
+            FlappyBirdGameManager.Instance?.AddScore(1);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

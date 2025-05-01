@@ -7,7 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Commponent")] private StateMachine<PlayerController> stateMachine;
+    [Header("Commponent")]
+    private StateMachine<PlayerController> stateMachine;
+
     public PlayerMoveController PlayerMoveController { get; private set; }
     public Animator             Animator             { get; private set; }
 
@@ -15,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private PlayerState currentState;
 
     private IInterfactable currentTarget;
-
     private RuntimeAnimatorController originAnimator;
 
     private void Awake()
@@ -30,7 +31,6 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine?.OnUpdate();
         TryStateTransition();
-
         if (Input.GetKeyDown(KeyCode.F) && !UIDialogue.Instance.IsDialogueRunning)
         {
             currentTarget?.Interact();
@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
         stateMachine.Setup(this, states[(int)PlayerState.Idle]);
     }
 
+    //팩토리패턴(디자인패턴)
     IState<PlayerController> GetState(PlayerState state)
     {
         return state switch
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviour
         if (originAnimator != Animator.runtimeAnimatorController)
         {
             Animator.runtimeAnimatorController = originAnimator;
+            PlayerMoveController.ChangeMoveSpeed(7);
             return;
         }
 

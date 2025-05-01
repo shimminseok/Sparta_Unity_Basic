@@ -35,12 +35,11 @@ public class UIDialogue : UIBase
     }
 
 
-    public void StartDefaultDialogue(NPCData data, Action onDialogueComplete = null)
+    public void StartDefaultDialogue(List<string> dialogue, Action onDialogueComplete = null)
     {
         ResetDescription();
-        npcName.text = data.Name;
         Open();
-        currentCoroutine = StartCoroutine(StartDialogue(data.DefaultDialogues, onDialogueComplete));
+        currentCoroutine = StartCoroutine(StartDialogue(dialogue, onDialogueComplete));
     }
 
     private IEnumerator StartDialogue(List<string> desc, Action onDialogueComplete = null)
@@ -53,6 +52,8 @@ public class UIDialogue : UIBase
             yield return null; //한프레임 쉬도록
         }
 
+        yield return null; //한프레임 쉬도록
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
         onDialogueComplete?.Invoke();
     }
 

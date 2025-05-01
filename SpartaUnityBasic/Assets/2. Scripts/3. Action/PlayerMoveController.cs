@@ -37,9 +37,10 @@ public class PlayerMoveController : MonoBehaviour
 
     public void HandleInput()
     {
+        //UI를했냐
         if (EventSystem.current.IsPointerOverGameObject())
             return;
-        
+        //키보드입력
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 

@@ -7,8 +7,6 @@ using UnityEditor;
 public class TableManager : Singleton<TableManager>
 {
     [SerializeField] List<ScriptableObject> tableList = new List<ScriptableObject>();
-
-
     Dictionary<Type, ITable> tableDic = new Dictionary<Type, ITable>();
 
     void Awake()

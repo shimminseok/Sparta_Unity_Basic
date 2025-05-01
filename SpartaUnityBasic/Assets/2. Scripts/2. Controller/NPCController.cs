@@ -11,10 +11,7 @@ public class NPCController : MonoBehaviour, IInterfactable
 
     public string  Name    { get; private set; }
     public NPCData NpcData { get; private set; }
-
     private INPCFunction npcFunction;
-
-    public int NPCID => npcID;
 
     private void Awake()
     {
@@ -29,7 +26,6 @@ public class NPCController : MonoBehaviour, IInterfactable
     {
         NpcData = TableManager.Instance.GetTable<NPCTable>()?.GetDataByID(npcID);
         Name = NpcData.Name;
-
         AddNPCComponents();
     }
 
@@ -64,6 +60,7 @@ public class NPCController : MonoBehaviour, IInterfactable
         return function switch
         {
             NPCFunction.MiniGame => typeof(MiniGameNPC),
+            NPCFunction.Story    => typeof(StoryNPC),
             _                    => null,
         };
     }

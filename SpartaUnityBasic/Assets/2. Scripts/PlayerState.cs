@@ -1,9 +1,11 @@
 using UnityEngine;
 
+//FSM (유한상태머신) 
 public class IdleState : IState<PlayerController>
 {
     public void OnEnter(PlayerController owenr)
     {
+        //대기상태
     }
 
     public void OnUpdate(PlayerController owner)

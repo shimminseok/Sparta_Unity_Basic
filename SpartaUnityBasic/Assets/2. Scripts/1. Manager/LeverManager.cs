@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 public class LeverManager : MonoBehaviour
 {
     public static LeverManager Instance { get; private set; }
+
     [SerializeField] private Tilemap tilemap;
 
     [SerializeField] private Sprite leverOnTile;
