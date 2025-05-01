@@ -39,6 +39,7 @@ public class PlayerMoveController : MonoBehaviour
     {
         if (EventSystem.current.IsPointerOverGameObject())
             return;
+        
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 

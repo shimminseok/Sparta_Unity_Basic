@@ -9,6 +9,7 @@ public class LeverController : MonoBehaviour, IInterfactable
     [SerializeField] private string leverName;
     [SerializeField] private List<Transform> doorPos;
     [SerializeField] private GameObject colliderObject;
+    [SerializeField] private GameObject privateRoomLight;
 
     private bool isOnLever = true;
 

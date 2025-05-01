@@ -14,12 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - NPCID: 1
-    Name: "\uB9C8\uBC95 \uD560\uC544\uBC84\uC9C0"
+    Name: "\uAE40\uC7AC\uCCA0 \uD29C\uD130"
     DefaultDialogues:
-    - "\uC559\uB155~"
-    - "\uB098\uB294 \uB9C8\uBC95 \uD560\uC544\uBC84\uC9C0\uC57C"
-    - "\uC0AC\uC2E4 \uC774\uB7F0\uAC70 \uBB50\uB77C\uACE0 \uC368\uC57C \uC88B\uC744\uC9C0
-      \uBAA8\uB974\uACA0\uC5B4"
-    - "\uC598\uB294 MiniGame NPC\uC57C"
-    - "\uC120\uD0DD\uD574\uC11C \uB0A0\uB77C\uAC00\uB3C4\uB85D \uD558\uC9C0"
+    - "\uB9C9\uD788\uB294 \uAC83\uC774 \uC788\uB2E4\uACE0?"
+    NPCFunction: 0
+  - NPCID: 2
+    Name: "\uC774\uC7AC\uD604 \uD29C\uD130"
+    DefaultDialogues:
+    - "\uB9C9\uD788\uB294 \uAC83\uC774 \uC788\uB2E4\uACE0?"
+    NPCFunction: 0
+  - NPCID: 3
+    Name: "\uBC15\uC815\uC2DD \uD29C\uD130"
+    DefaultDialogues:
+    - "\uB9C9\uD788\uB294 \uAC83\uC774 \uC788\uB2E4\uACE0?"
+    NPCFunction: 0
+  - NPCID: 4
+    Name: "\uAE40\uD718 \uD29C\uD130"
+    DefaultDialogues:
+    - "\uB9C9\uD788\uB294 \uAC83\uC774 \uC788\uB2E4\uACE0?"
+    NPCFunction: 0
+  - NPCID: 5
+    Name: "\uAE40\uC601\uD638 \uD29C\uD130"
+    DefaultDialogues:
+    - "\uB9C9\uD788\uB294 \uAC83\uC774 \uC788\uB2E4\uACE0?"
+    NPCFunction: 0
+  - NPCID: 6
+    Name: "\uCC44\uD55C\uC2B9 \uD29C\uD130"
+    DefaultDialogues:
+    - "\uB9C9\uD788\uB294 \uAC83\uC774 \uC788\uB2E4\uACE0?"
     NPCFunction: 0

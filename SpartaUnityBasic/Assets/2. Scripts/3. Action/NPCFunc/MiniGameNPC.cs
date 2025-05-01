@@ -16,9 +16,4 @@ public class MiniGameNPC : MonoBehaviour, INPCFunction
     {
         UIDialogue.Instance.StartDefaultDialogue(npcData, UIMinigamePanel.Instance.Open);
     }
-
-    //미니게임 종류를 보여줌?
-    public void FlappyBird()
-    {
-    }
 }

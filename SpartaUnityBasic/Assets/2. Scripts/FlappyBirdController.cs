@@ -73,6 +73,9 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (isDead)
+            return;
+
         if (other.gameObject.CompareTag("Obstacle"))
             FlappyBirdGameManager.Instance.AddScore(1);
     }
@@ -89,6 +92,7 @@ public class FlappyBirdController : MonoBehaviour
         animator.SetTrigger(Die);
         isDead = true;
         deathCooldown = 1f;
-        FlappyBirdGameManager.Instance.GameOver();
+        if (FlappyBirdGameManager.Instance != null)
+            FlappyBirdGameManager.Instance.GameOver();
     }
 }

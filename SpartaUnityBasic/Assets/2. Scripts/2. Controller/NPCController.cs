@@ -75,7 +75,10 @@ public class NPCController : MonoBehaviour, IInterfactable
 
     public void Eixt()
     {
-        if (UIDialogue.Instance.IsDialogueRunning)
-            UIDialogue.Instance.Close();
+        if (UIDialogue.Instance != null)
+        {
+            if (UIDialogue.Instance.IsDialogueRunning)
+                UIDialogue.Instance.Close();
+        }
     }
 }
