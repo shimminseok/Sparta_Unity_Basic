@@ -89,24 +89,24 @@ Awake()에서 중복 인스턴스 제거
 NPC, 레버 등 다양한 오브젝트에 대해 일관된 상호작용 구조를 제공하여 유연하게 확장 가능하도록 설계합니다.
 
 **정의된 인터페이스
-- IInterfactable: 상호작용 인터페이스 (Interact(), Exit())
-- INPCFunction: NPC 기능 실행 인터페이스
-- ITable: ScriptableObject 테이블 초기화 인터페이스
+- `IInterfactable`: 상호작용 인터페이스 (`Interact()`, `Exit()`)
+- `INPCFunction`: NPC 기능 실행 인터페이스
+- `ITable`: ScriptableObject 테이블 초기화 인터페이스
 
 **장점**
 - DIP(의존성 역전 원칙) 실현
 - 기능별 책임 분리 → 테스트 단순화, 유지보수 쉬움
 - 다형성을 활용한 유연한 기능 확장
 
-### ✅ A* 경로 탐색 알고리즘 (TileMapAStar.cs)
+### ✅ A* 경로 탐색 알고리즘 (`TileMapAStar.cs`)
 
 **설계 목적**  
 마우스 클릭을 통해 타일 기반 이동 시 장애물을 회피하며 최적의 경로를 찾기 위해 A* 알고리즘을 사용합니다.
 
 **핵심 구성**
-- Node 클래스: F = G + H 비용 계산
+- `Node` 클래스: F = G + H 비용 계산
 - 맨해튼 거리 기반 휴리스틱 사용
-- 벽 정보는 Tilemap을 기반으로 HashSet에 저장
+- 벽 정보는 `Tilemap`을 기반으로 `HashSet`에 저장
 - 대각선 이동 시 충돌 여부 체크 포함
 
 **장점**
@@ -120,12 +120,12 @@ NPC, 레버 등 다양한 오브젝트에 대해 일관된 상호작용 구조�
 게임 데이터(NPC, 미니게임, 변신 등)를 외부 데이터 자산으로 관리하여 코드와 데이터를 분리합니다.
 
 **구현 방식**
-- ITable 인터페이스를 통해 테이블마다 CreateTable()정의
-- TableManager가 실행 시 모든 테이블을 자동 초기화 및 등록
-- 에디터에서 AutoAssignTables()로 ScriptableObject 자동 검색 가능
+- `ITable` 인터페이스를 통해 테이블마다 `CreateTable()`정의
+- `TableManager`가 실행 시 모든 테이블을 자동 초기화 및 등록
+- 에디터에서 `AutoAssignTables()`로 ScriptableObject 자동 검색 가능
 
 **적용 테이블 예시**
-- NPCTalbe, MiniGameTable, TransformTable
+- `NPCTalbe`, `MiniGameTable`, `TransformTable`
 
 **장점**
 - 디자이이너와의 협업에 적합
@@ -138,9 +138,9 @@ NPC, 레버 등 다양한 오브젝트에 대해 일관된 상호작용 구조�
 모든 UI패널의 공통 동작을 통합ㅂ하고, 중복 UI 처리 문제를 방지합니다.
 
 **핵심 구조**
-- UIBase 클래스를 통해 Open(), Close() 기본 동작 정의
-- UIManager가 중복 제어 처리
-- 팝업 UI는 OpenedPopup 리스트로 관리
+- `UIBase` 클래스를 통해 `Open()`, `Close()` 기본 동작 정의
+- `UIManager`가 중복 제어 처리
+- 팝업 UI는 `OpenedPopup` 리스트로 관리
 
 **장점**
 - UI 오픈/클로즈 로직 일관화
@@ -153,9 +153,9 @@ NPC, 레버 등 다양한 오브젝트에 대해 일관된 상호작용 구조�
 플레이어의 외형 및 속도를 동적으로 변경하여 커스터마이징 기능을 제공합니다.
 
 **구현 방식**
-- TransformData를 ScriptableObject로 관리
-- UITransform에서 변신 목록을 동적으로 생성 및 선택 처리
-- PlayerController.TransformTo()에서 애니메이터와 이동속도 적용
+- `TransformData`를 `ScriptableObject`로 관리
+- `UITransform`에서 변신 목록을 동적으로 생성 및 선택 처리
+- `PlayerController.TransformTo()`에서 애니메이터와 이동속도 적용
 
 **핵심 요소**
 - UITransform → TransformData 선택 → PlayerController.TransformTo() 호출
