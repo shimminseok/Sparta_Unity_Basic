@@ -30,8 +30,6 @@ public class PlayerMoveController : MonoBehaviour
     private Vector2 targetPosition;
     private Vector2 keyboardInput;
 
-    private bool isPathMoving = false;
-
     private Coroutine moveRoutine;
     private List<Vector2Int> lastPath = new List<Vector2Int>();
 
@@ -63,7 +61,6 @@ public class PlayerMoveController : MonoBehaviour
         {
             if (moveRoutine != null)
                 StopCoroutine(moveRoutine);
-            isPathMoving = false;
             CurrentMoveType = MoveType.Keyboard;
             keyboardInput = new Vector2(inputX, inputY).normalized;
             targetPosition = transform.localPosition;
@@ -107,7 +104,6 @@ public class PlayerMoveController : MonoBehaviour
         lastPath = path;
         CurrentMoveType = MoveType.AStar;
         moveRoutine = StartCoroutine(FollowPath(path));
-        isPathMoving = true;
     }
 
     IEnumerator FollowPath(List<Vector2Int> path)
@@ -131,7 +127,6 @@ public class PlayerMoveController : MonoBehaviour
         }
 
         CurrentMoveType = MoveType.None;
-        isPathMoving = false;
     }
 
     private void OnDrawGizmos()
@@ -177,7 +172,4 @@ public class PlayerMoveController : MonoBehaviour
     }
 
     public void ChangeMoveSpeed(float speed) => moveSpeed = speed;
-
-    public bool IsArrived()           => Vector2.Distance(transform.position, targetPosition) < 0.1f;
-    public bool IsKeyboardInputIdle() => Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0;
 }
