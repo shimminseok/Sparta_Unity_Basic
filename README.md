@@ -58,16 +58,23 @@
 
 ---
 ## 🧠 기술 설계 상세 설명
-### 1. 싱글톤 패턴 적용 (Singleton<T>)
-목적: 매니저 클래스(GameManager, UIManager, LoadSceneManager 등)는 전역 접근이 필요하고, 게임 전체에서 단 하나만 존재해야 하기 때문.
+### ✅ 싱글톤 패턴 적용 (Singleton<T>)
 
-구현 포인트:
+**설계 목적**
+매니저 클래스는 게임 전역에서 하나만 존재해야 하며, 씬 전환 간에도 유지되어야 합니다.
 
-DontDestroyOnLoad로 씬 전환 시 유지
+**구현 방식**
+- `DontDestroyOnLoad`로 씬 전환 시 오브젝트 유지
+- `Awake()`에서 중복 인스턴스 제거
+- 존재하지 않을 경우 자동 생성(`new GameObject`)
 
-Awake()에서 중복 인스턴스 제거
+**적용 클래스**
+- `GameManager`, `UIManager`, `LoadSceneManager`, `TableManager`, `UIMinigamePanel`, `UIDialogue` 등
 
-인스턴스가 존재하지 않으면 자동 생성 (new GameObject)
+**장점**
+- 전역 접근 용이
+- 중복 인스턴스 방지
+- 자동 초기화로 관리 편의성 향상
 
 ### ✅ 상태머신 구조 (`StateMachine<T>`, `IState<T>`)
 
