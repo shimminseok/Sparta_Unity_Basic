@@ -58,7 +58,7 @@
 
 ---
 ## 🧠 기술 설계 상세 설명
-# 1. 싱글톤 패턴 적용 (Singleton<T>)
+### 1. 싱글톤 패턴 적용 (Singleton<T>)
 목적: 매니저 클래스(GameManager, UIManager, LoadSceneManager 등)는 전역 접근이 필요하고, 게임 전체에서 단 하나만 존재해야 하기 때문.
 
 구현 포인트:
@@ -77,7 +77,7 @@ Awake()에서 중복 인스턴스 제거
 
 테스트 및 디버깅 편의성
 
-#2. 상태머신 설계 (StateMachine<T>, IState<T>)
+### 2. 상태머신 설계 (StateMachine<T>, IState<T>)
 목적: 플레이어의 동작 상태(Idle, Move 등)를 명확히 분리하여 복잡도를 줄이고, 확장성 높은 구조를 만들기 위해.
 
 구현 구조:
@@ -94,7 +94,7 @@ IState<T> 인터페이스를 통해 상태별 클래스를 정의 (IdleState, Mo
 
 상태 추가 시 기존 코드 수정 없이 확장 가능
 
-#3. 인터페이스 분리 원칙 적용
+### 3. 인터페이스 분리 원칙 적용
 예시 인터페이스:
 
 IInterfactable: 상호작용 가능한 객체(NPC, 레버 등)의 통합 인터페이스
@@ -111,7 +111,7 @@ DIP(의존성 역전 원칙) 실현
 
 다형성을 활용한 유연한 기능 확장
 
-#4. A* 경로 탐색 알고리즘 (TileMapAStar)
+### 4. A* 경로 탐색 알고리즘 (TileMapAStar)
 목적: 마우스 클릭 기반 자동 이동 시 장애물을 피해서 자연스러운 경로를 찾기 위함
 
 구현 요소:
@@ -130,7 +130,7 @@ IsDiagonalMoveBlocked로 대각선 충돌 예외 처리
 
 향후 몬스터 AI, NPC 자동 이동에도 재사용 가능
 
-#5. ScriptableObject 기반 데이터 테이블
+### 5. ScriptableObject 기반 데이터 테이블
 적용 예시:
 
 NPCTable, MiniGameTable, TransformTable 등
@@ -149,7 +149,7 @@ AutoAssignTables()를 통해 에디터에서 자동으로 ScriptableObject 등�
 
 타입 기반으로 안전하게 테이블 접근 (GetTable<T>())
 
-#6. UI 모듈화 및 공통화
+### 6. UI 모듈화 및 공통화
 UIBase 클래스를 통해 공통 기능 정의: Open(), Close() 등
 
 Manager 패턴과 함께 동작: UIManager가 중복 팝업 방지 및 관리
@@ -164,7 +164,7 @@ UI 오픈/클로즈 로직 일관화
 
 향후 팝업 추가 시 UIBase만 상속하면 자동 적용됨
 
-#7. 변신 시스템
+### 7. 변신 시스템
 기능: 플레이어가 특정 외형(AnimatorController)과 속도를 바꿔 전환
 
 핵심 요소:
