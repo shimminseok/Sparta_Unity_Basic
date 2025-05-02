@@ -69,115 +69,98 @@ Awake()에서 중복 인스턴스 제거
 
 인스턴스가 존재하지 않으면 자동 생성 (new GameObject)
 
-장점:
+### ✅ 상태머신 구조 (`StateMachine<T>`, `IState<T>`)
 
-전역 접근 가능
+**설계 목적**  
+플레이어 상태(Idle, Move 등)를 명확하게 분리하여 복잡한 로직을 간결하게 유지합니다.
 
-씬 간 데이터 유지
+**구현 방식**
+- `StateMachine<T>`는 상태의 생명주기(`OnEnter`, `OnExit`, `OnUpdate`, `OnFixedUpdate`)를 관리
+- `IState<T>` 인터페이스로 상태 클래스 정의
 
-테스트 및 디버깅 편의성
+**장점**
+- 유지보수 및 확장성 우수
+- 각 상태가 책임을 분리하여 독립적으로 관리됨
+- 새로운 상태 추가 시 기존 코드에 영향 없음(OCP 원칙 적용)
 
-### 2. 상태머신 설계 (StateMachine<T>, IState<T>)
-목적: 플레이어의 동작 상태(Idle, Move 등)를 명확히 분리하여 복잡도를 줄이고, 확장성 높은 구조를 만들기 위해.
+### ✅ 인터페이스 기반 상호작용
 
-구현 구조:
+**설계 목적**  
+NPC, 레버 등 다양한 오브젝트에 대해 일관된 상호작용 구조를 제공하여 유연하게 확장 가능하도록 설계합니다.
 
-StateMachine<T> 클래스는 상태 변경과 생명주기 관리 (OnEnter, OnExit, Update, FixedUpdate)
+**정의된 인터페이스
+- IInterfactable: 상호작용 인터페이스 (Interact(), Exit())
+- INPCFunction: NPC 기능 실행 인터페이스
+- ITable: ScriptableObject 테이블 초기화 인터페이스
 
-IState<T> 인터페이스를 통해 상태별 클래스를 정의 (IdleState, MoveState)
+**장점**
+- DIP(의존성 역전 원칙) 실현
+- 기능별 책임 분리 → 테스트 단순화, 유지보수 쉬움
+- 다형성을 활용한 유연한 기능 확장
 
-장점:
+### ✅ A* 경로 탐색 알고리즘 (TileMapAStar.cs)
 
-코드 가독성과 유지보수성 향상
+**설계 목적**  
+마우스 클릭을 통해 타일 기반 이동 시 장애물을 회피하며 최적의 경로를 찾기 위해 A* 알고리즘을 사용합니다.
 
-각 상태가 자기 책임만 가지므로 기능 분리가 명확
+**핵심 구성**
+- Node 클래스: F = G + H 비용 계산
+- 맨해튼 거리 기반 휴리스틱 사용
+- 벽 정보는 Tilemap을 기반으로 HashSet에 저장
+- 대각선 이동 시 충돌 여부 체크 포함
 
-상태 추가 시 기존 코드 수정 없이 확장 가능
+**장점**
+- 장애물 회피 자동 경로 이동 구현 가능
+- 대각선 이동 등 실제 맵 조건을 반영
+- 향후 NPC, Monster AI에도 재활용 가능
 
-### 3. 인터페이스 분리 원칙 적용
-예시 인터페이스:
+### ✅ ScriptableObject 기반 데이터 테이블
 
-IInterfactable: 상호작용 가능한 객체(NPC, 레버 등)의 통합 인터페이스
+**설계 목적**
+게임 데이터(NPC, 미니게임, 변신 등)를 외부 데이터 자산으로 관리하여 코드와 데이터를 분리합니다.
 
-INPCFunction: NPC 기능을 담당하는 컴포넌트의 공통 인터페이스
+**구현 방식**
+- ITable 인터페이스를 통해 테이블마다 CreateTable()정의
+- TableManager가 실행 시 모든 테이블을 자동 초기화 및 등록
+- 에디터에서 AutoAssignTables()로 ScriptableObject 자동 검색 가능
 
-ITable: ScriptableObject 기반 테이블의 공통 생성 인터페이스
+**적용 테이블 예시**
+- NPCTalbe, MiniGameTable, TransformTable
 
-장점:
+**장점**
+- 디자이이너와의 협업에 적합
+- 런타임 중 안전한 타입 기반 접근 가능
+- 유지보수 및 확장 용이(데이터 중심 설계)
 
-DIP(의존성 역전 원칙) 실현
+### ✅ UI 모듈화 및 공통화
 
-기능별 책임 분리 → 테스트 단순화, 유지보수 쉬움
+**설계 목적**
+모든 UI패널의 공통 동작을 통합ㅂ하고, 중복 UI 처리 문제를 방지합니다.
 
-다형성을 활용한 유연한 기능 확장
+**핵심 구조**
+- UIBase 클래스를 통해 Open(), Close() 기본 동작 정의
+- UIManager가 중복 제어 처리
+- 팝업 UI는 OpenedPopup 리스트로 관리
 
-### 4. A* 경로 탐색 알고리즘 (TileMapAStar)
-목적: 마우스 클릭 기반 자동 이동 시 장애물을 피해서 자연스러운 경로를 찾기 위함
+**장점**
+- UI 오픈/클로즈 로직 일관화
+- 대화 → 미니게임 → 씬 전환 등의 흐름을 깔끔하게 연결 가능
+- 향후 팝업 추가 시 UIBase만 상속하면 자동 적용됨
 
-구현 요소:
+### ✅ 변신 시스템
 
-Node 클래스 기반의 G/H/F 비용 계산
+**설계 목적**
+플레이어의 외형 및 속도를 동적으로 변경하여 커스터마이징 기능을 제공합니다.
 
-walls HashSet으로 타일맵 기반 충돌 정보 캐싱
+**구현 방식**
+- TransformData를 ScriptableObject로 관리
+- UITransform에서 변신 목록을 동적으로 생성 및 선택 처리
+- PlayerController.TransformTo()에서 애니메이터와 이동속도 적용
 
-IsDiagonalMoveBlocked로 대각선 충돌 예외 처리
+**핵심 요소**
+- UITransform → TransformData 선택 → PlayerController.TransformTo() 호출
+- ScriptableObject로 데이터화 → 애니메이션, 속도, 이름 등 자유 설정 가능
 
-장점:
-
-복잡한 맵에서도 정확하고 빠른 경로 탐색 가능
-
-키보드와 병행 가능한 이동 타입 구현
-
-향후 몬스터 AI, NPC 자동 이동에도 재사용 가능
-
-### 5. ScriptableObject 기반 데이터 테이블
-적용 예시:
-
-NPCTable, MiniGameTable, TransformTable 등
-
-핵심 구현:
-
-TableManager에서 CreateTable() 자동 호출
-
-AutoAssignTables()를 통해 에디터에서 자동으로 ScriptableObject 등록
-
-장점:
-
-데이터 중심 설계 가능 (디자이너와 협업 용이)
-
-런타임 중 불필요한 중복 생성 없이 테이블 관리
-
-타입 기반으로 안전하게 테이블 접근 (GetTable<T>())
-
-### 6. UI 모듈화 및 공통화
-UIBase 클래스를 통해 공통 기능 정의: Open(), Close() 등
-
-Manager 패턴과 함께 동작: UIManager가 중복 팝업 방지 및 관리
-
-콜백 구조 적용: UIDialogue.StartDefaultDialogue(dialogues, onComplete) 식으로 연동
-
-장점:
-
-UI 오픈/클로즈 로직 일관화
-
-대화 → 미니게임 → 씬 전환 등의 흐름을 깔끔하게 연결 가능
-
-향후 팝업 추가 시 UIBase만 상속하면 자동 적용됨
-
-### 7. 변신 시스템
-기능: 플레이어가 특정 외형(AnimatorController)과 속도를 바꿔 전환
-
-핵심 요소:
-
-UITransform → TransformData 선택 → PlayerController.TransformTo() 호출
-
-ScriptableObject로 데이터화 → 애니메이션, 속도, 이름 등 자유 설정 가능
-
-장점:
-
-유저 커스터마이징 요소 강화
-
-외형 전환 시 애니메이션 변경과 이동 로직 일괄 적용
 
 ## 🚀 시연 예시 기능
 
