@@ -13,7 +13,8 @@ public class PlayerMoveController : MonoBehaviour
     {
         None,
         Mouse,
-        Keyboard
+        Keyboard,
+        AStar
     }
 
 
@@ -104,9 +105,9 @@ public class PlayerMoveController : MonoBehaviour
             StopCoroutine(moveRoutine);
 
         lastPath = path;
+        CurrentMoveType = MoveType.AStar;
         moveRoutine = StartCoroutine(FollowPath(path));
         isPathMoving = true;
-        CurrentMoveType = MoveType.None;
     }
 
     IEnumerator FollowPath(List<Vector2Int> path)
@@ -129,6 +130,7 @@ public class PlayerMoveController : MonoBehaviour
             rigid.MovePosition(target);
         }
 
+        CurrentMoveType = MoveType.None;
         isPathMoving = false;
     }
 
