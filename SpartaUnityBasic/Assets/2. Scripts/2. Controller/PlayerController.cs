@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
         if (other.TryGetComponent<IInterfactable>(out IInterfactable interfactable))
         {
             currentTarget = interfactable;
+            UIHUD.Instance.StartSwapInterfactorSprite();
         }
     }
 
@@ -119,6 +120,7 @@ public class PlayerController : MonoBehaviour
             {
                 currentTarget.Eixt();
                 currentTarget = null;
+                UIHUD.Instance.StopSwapInterfactorSprite();
             }
         }
     }

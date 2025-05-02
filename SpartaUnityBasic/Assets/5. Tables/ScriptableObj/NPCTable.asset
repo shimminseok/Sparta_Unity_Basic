@@ -117,5 +117,5 @@ MonoBehaviour:
   - NPCID: 7
     Name: "\uBBF8\uB2C8\uAC8C\uC784 NPC"
     DefaultDialogues:
-    - "\uBBF8\uB2C8\uAC8C\uC784 NPC\uC5D0"
+    - "\uBBF8\uB2C8\uAC8C\uC784 NPC\uC5D0\uC624"
     NPCFunction: 1
