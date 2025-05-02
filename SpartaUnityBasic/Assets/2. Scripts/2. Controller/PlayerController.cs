@@ -10,11 +10,12 @@ public class PlayerController : MonoBehaviour
     [Header("Commponent")]
     private StateMachine<PlayerController> stateMachine;
 
+    private IState<PlayerController>[] states;
+
     private SpriteRenderer playerSpriteRenderer;
     public PlayerMoveController PlayerMoveController { get; private set; }
     public Animator             Animator             { get; private set; }
 
-    private IState<PlayerController>[] states;
     private PlayerState currentState;
 
     private IInterfactable currentTarget;
