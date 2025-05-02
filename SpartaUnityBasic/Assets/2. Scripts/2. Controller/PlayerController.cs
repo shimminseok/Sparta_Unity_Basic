@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header("Commponent")]
     private StateMachine<PlayerController> stateMachine;
 
+    private SpriteRenderer playerSpriteRenderer;
     public PlayerMoveController PlayerMoveController { get; private set; }
     public Animator             Animator             { get; private set; }
 
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMoveController = GetComponent<PlayerMoveController>();
         Animator = GetComponent<Animator>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
         SetupState();
         originAnimator = Animator.runtimeAnimatorController;
     }

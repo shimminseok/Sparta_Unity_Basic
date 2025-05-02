@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform target;
 
     [SerializeField] private Tilemap tilemap;
+    [SerializeField] private int maxZoom;
     private float camHalfWidth;
     private float camHalfHeight;
 
@@ -20,6 +21,8 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+        mainCamera.transparencySortMode = TransparencySortMode.CustomAxis;
+        mainCamera.transparencySortAxis = new Vector3(0, 1, 0);
     }
 
     void Start()
@@ -58,7 +61,7 @@ public class CameraController : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize - scroll * 5f, 3f, 8f);
+            mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize - scroll * 5f, 3f, maxZoom);
             camHalfHeight = mainCamera.orthographicSize;
             camHalfWidth = camHalfHeight * mainCamera.aspect;
         }
