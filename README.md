@@ -58,7 +58,7 @@
 
 ---
 ## 🧠 기술 설계 상세 설명
-#1. 싱글톤 패턴 적용 (Singleton<T>)
+# 1. 싱글톤 패턴 적용 (Singleton<T>)
 목적: 매니저 클래스(GameManager, UIManager, LoadSceneManager 등)는 전역 접근이 필요하고, 게임 전체에서 단 하나만 존재해야 하기 때문.
 
 구현 포인트:
