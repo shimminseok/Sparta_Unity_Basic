@@ -54,7 +54,7 @@ public class MoveState : IState<PlayerController>
 
     public void OnExit(PlayerController owenr)
     {
-        owenr.Animator.SetBool("IsMove", false);
+        owenr.Animator.SetBool(MoveHash, false);
     }
 
     public PlayerState? CheckTransition(PlayerController owner)
