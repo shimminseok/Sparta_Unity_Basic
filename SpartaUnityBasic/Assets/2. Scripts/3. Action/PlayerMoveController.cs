@@ -42,9 +42,11 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Start()
     {
-        HashSet<Vector2Int> wallSet = new HashSet<Vector2Int>();
-
         TileMapAStar.SetWallData(wallTilemap);
+    }
+
+    private void Update()
+    {
     }
 
     public void HandleInput()
@@ -77,7 +79,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void TrySetMouseTarget()
     {
-        // Ray          ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        // Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         // RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
         // if (hit.collider != null)
         // {

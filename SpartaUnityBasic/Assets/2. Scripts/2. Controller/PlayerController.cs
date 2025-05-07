@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     public Animator             Animator             { get; private set; }
 
     private PlayerState currentState;
-
     private IInterfactable currentTarget;
     private RuntimeAnimatorController originAnimator;
 
@@ -61,7 +60,6 @@ public class PlayerController : MonoBehaviour
         stateMachine.Setup(this, states[(int)PlayerState.Idle]);
     }
 
-    //팩토리패턴(디자인패턴)
     IState<PlayerController> GetState(PlayerState state)
     {
         return state switch

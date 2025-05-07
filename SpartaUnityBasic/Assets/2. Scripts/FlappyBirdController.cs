@@ -14,7 +14,6 @@ public class FlappyBirdController : MonoBehaviour
     public float flapForce = 6f;
     public float forwardSpeed = 3f;
     public bool isDead = false;
-    private float deathCooldown = 0f;
 
     private bool isFlap = false;
     public bool godMode = false;
@@ -80,7 +79,6 @@ public class FlappyBirdController : MonoBehaviour
 
         animator.SetTrigger(Die);
         isDead = true;
-        deathCooldown = 1f;
         if (FlappyBirdGameManager.Instance != null)
             FlappyBirdGameManager.Instance.GameOver();
     }
