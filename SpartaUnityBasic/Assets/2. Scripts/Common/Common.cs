@@ -41,7 +41,7 @@ public interface IState<T> where T : MonoBehaviour
     PlayerState? CheckTransition(T owner);
 }
 
-public interface IInterfactable
+public interface IInteractable
 {
     void Interact();
     void Eixt();

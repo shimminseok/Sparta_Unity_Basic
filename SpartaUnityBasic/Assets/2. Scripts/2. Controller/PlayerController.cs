@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header("Commponent")]
     private StateMachine<PlayerController> stateMachine;
 
+
     private IState<PlayerController>[] states;
 
     private SpriteRenderer playerSpriteRenderer;
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public Animator             Animator             { get; private set; }
 
     private PlayerState currentState;
-    private IInterfactable currentTarget;
+    private IInteractable currentTarget;
     private RuntimeAnimatorController originAnimator;
 
     private void Awake()
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
         originAnimator = Animator.runtimeAnimatorController;
     }
 
-    void Update()
+    private void Update()
     {
         stateMachine?.OnUpdate();
         TryStateTransition();
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour
         stateMachine.Setup(this, states[(int)PlayerState.Idle]);
     }
 
-    IState<PlayerController> GetState(PlayerState state)
+    private IState<PlayerController> GetState(PlayerState state)
     {
         return state switch
         {
@@ -79,13 +80,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void ChangeState(PlayerState newState)
+    private void ChangeState(PlayerState newState)
     {
         stateMachine.ChangeState(states[(int)newState]);
         currentState = newState;
     }
 
-    public void TransformTo()
+    private void TransformTo()
     {
         if (originAnimator != Animator.runtimeAnimatorController)
         {
@@ -97,32 +98,26 @@ public class PlayerController : MonoBehaviour
         var transformData = UITransform.Instance.SelectedTaransformData;
 
 
-        if (transformData != null)
-        {
-            Animator.runtimeAnimatorController = transformData.AnimatorController;
-            PlayerMoveController.ChangeMoveSpeed(transformData.Speed);
-        }
+        if (transformData == null) return;
+
+        Animator.runtimeAnimatorController = transformData.AnimatorController;
+        PlayerMoveController.ChangeMoveSpeed(transformData.Speed);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<IInterfactable>(out IInterfactable interfactable))
-        {
-            currentTarget = interfactable;
-            UIHUD.Instance?.StartSwapInterfactorSprite();
-        }
+        if (!other.TryGetComponent<IInteractable>(out var interactable)) return;
+
+        currentTarget = interactable;
+        UIHUD.Instance?.StartSwapInterfactorSprite();
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent<IInterfactable>(out IInterfactable interfactable))
-        {
-            if (currentTarget == interfactable)
-            {
-                currentTarget.Eixt();
-                currentTarget = null;
-                UIHUD.Instance?.StopSwapInterfactorSprite();
-            }
-        }
+        if (!other.TryGetComponent<IInteractable>(out var interactable) || currentTarget != interactable) return;
+
+        currentTarget.Eixt();
+        currentTarget = null;
+        UIHUD.Instance?.StopSwapInterfactorSprite();
     }
 }

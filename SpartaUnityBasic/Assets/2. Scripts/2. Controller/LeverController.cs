@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class LeverController : MonoBehaviour, IInterfactable
+public class LeverController : MonoBehaviour, IInteractable
 {
     [SerializeField] private string leverName;
     [SerializeField] private List<Transform> doorPos;

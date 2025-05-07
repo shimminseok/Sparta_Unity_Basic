@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Animator))]
-public class NPCController : MonoBehaviour, IInterfactable
+public class NPCController : MonoBehaviour, IInteractable
 {
     [SerializeField] private int npcID;
 
